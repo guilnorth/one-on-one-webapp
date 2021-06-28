@@ -30,7 +30,7 @@ const App = () => (
                         target="_blank"
                         rel="noopener noreferrer"
                     >
-                        Learn Chakra
+                        Hello Amplify!
                     </Link>
                 </VStack>
             </Grid>
