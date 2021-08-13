@@ -1,17 +1,20 @@
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
-import { Switch, Route } from 'react-router-dom';
+import { Suspense } from 'react';
 
 export default function TransitionApp({ location, children }: any) {
 
   return (
-    <TransitionGroup>
-
+    <TransitionGroup appear enter exit>
       <CSSTransition
-        key={ location.key }
+        key={location.pathname}
         classNames="fade"
-        timeout={ 300 }
+        timeout={{ enter: 300, exit: 300 }}
       >
-        { children }
+        <div>
+          <Suspense fallback={<p>Loading...</p>}>
+            {children}
+          </Suspense>
+        </div>
       </CSSTransition>
     </TransitionGroup>
 

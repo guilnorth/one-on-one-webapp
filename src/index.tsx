@@ -2,8 +2,12 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { ColorModeScript } from '@chakra-ui/react'
 import './index.css'
+import Amplify from 'aws-amplify'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
+import awsconfig from './aws-exports'
+
+Amplify.configure(awsconfig)
 
 ReactDOM.render(
     <React.StrictMode>

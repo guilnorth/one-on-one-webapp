@@ -36,7 +36,7 @@
             }
         ],
         "no-use-before-define": "off",
-        "@typescript-eslint/no-use-before-define": ["error"],
+        "@typescript-eslint/no-use-before-define": "off",
         "react/jsx-filename-extension": ["warn", { "extensions": [".tsx"] }],
         "no-shadow": "off",
         "@typescript-eslint/no-shadow": ["error"],
@@ -44,13 +44,19 @@
         "react-hooks/rules-of-hooks": "error",
         "react-hooks/exhaustive-deps": "warn",
         "import/prefer-default-export": "off",
+        "import/no-extraneous-dependencies": ["off"],
+        "react/react-in-jsx-scope": "off",
+        "react/jsx-uses-react": "off",
+        "react/no-children-prop": "off",
+        "prettier/prettier": ["off", { "singleQuote": true }],
         "react/prop-types": "off",
         "@typescript-eslint/explicit-module-boundary-types": "off",
-        "import/no-extraneous-dependencies": [
-            "error",
-            { "devDependencies": true }
-        ],
-        "react/jsx-props-no-spreading": "off"
+        "no-param-reassign": "off",
+        "react/jsx-props-no-spreading": "off",
+        "no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars": "off",
+        "@typescript-eslint/ban-ts-ignore": "off",
+        "@typescript-eslint/ban-ts-comment": "off"
     },
     "settings": {
         "import/resolver": {

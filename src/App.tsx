@@ -1,41 +1,39 @@
-import * as React from 'react'
-import {
-    ChakraProvider,
-    Box,
-    Text,
-    Link,
-    VStack,
-    Code,
-    Grid,
-    theme,
-} from '@chakra-ui/react'
-import ColorModeSwitcher from './ColorModeSwitcher'
-import Logo from './Logo'
+import { ChakraProvider } from '@chakra-ui/react'
+// import { ThemeEditorProvider, ThemeEditorDrawerButton } from '@hypertheme-editor/chakra-ui'
+
+import { withAuthenticator } from '@aws-amplify/ui-react'
+import theme from 'shared/styles/theme'
+
+import Amplify, { AuthModeStrategyType } from 'aws-amplify';
+import AppRoutes from './navigation';
+
+import awsconfig from './aws-exports'; 
+
+Amplify.configure({
+  ...awsconfig,
+  DataStore: {
+    authModeStrategyType: AuthModeStrategyType.MULTI_AUTH,
+    // "aws_appsync_authenticationType": "AMAZON_COGNITO_USER_POOLS"
+  }
+});
+// Amplify.Logger.LOG_LEVEL = 'DEBUG';
+
 
 const App = () => (
-    <ChakraProvider theme={theme}>
-        <Box textAlign="center" fontSize="xl">
-            <Grid minH="100vh" p={3}>
-                <ColorModeSwitcher justifySelf="flex-end" />
-                <VStack spacing={8}>
-                    <Logo h="40vmin" pointerEvents="none" />
-                    <Text>
-                        Edit <Code fontSize="xl">src/App.tsx</Code> and save to
-                        reload.
-                    </Text>
-                    <Link
-                        color="teal.500"
-                        href="https://chakra-ui.com"
-                        fontSize="2xl"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        Hello Amplify!
-                    </Link>
-                </VStack>
-            </Grid>
-        </Box>
-    </ChakraProvider>
+  <ChakraProvider theme={theme}>
+    {/* <ThemeEditorProvider> */}
+        {/* <ThemeEditorDrawerButton pos="fixed" bottom={4} right={2} /> */}
+        <AppRoutes/>
+     {/*  </ThemeEditorProvider> */}
+  </ChakraProvider>
 )
+const t: any = {
+  signUpConfig: {
+    hiddenDefaults: ['phone_number'],
+    signUpFields: [
+      { label: 'Name', key: 'name', required: true, type: 'string' },
+    ],
+  },
+}
 
-export default App
+export default withAuthenticator(App, t)
