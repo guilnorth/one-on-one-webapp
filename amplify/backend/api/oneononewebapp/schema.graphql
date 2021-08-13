@@ -1,0 +1,57 @@
+type QuestionCategory @model @auth(rules: [{allow: public}, {allow: private}]) {
+  id: ID!
+  category: String
+  questions: [QuestionQuestionCategory] @connection(keyName: "byQuestionCategory", fields: ["id"])
+}
+
+type Question @model @auth(rules: [{allow: public}, {allow: private}]) {
+  id: ID!
+  question: String!
+  QuestionQuestionCategories: [QuestionQuestionCategory!] @connection(keyName: "byQuestion", fields: ["id"])
+  meetings: [MeetingQuestion] @connection(keyName: "byQuestion", fields: ["id"])
+}
+
+type MeetingSchedule @model @auth(rules: [{allow: owner}]) {
+  id: ID!
+  startDate: AWSDateTime!
+  recurrenceRule: String
+  Member: Member! @connection
+  Meetings: [Meeting] @connection(keyName: "byMeetingSchedule", fields: ["id"])
+  isDisabled: Boolean
+}
+
+type Meeting @model @key(name: "byMeetingSchedule", fields: ["meetingScheduleID"]) @auth(rules: [{allow: owner}]) {
+  id: ID!
+  meetingDate: AWSDateTime!
+  isDisabled: Boolean
+  meetingScheduleID: ID
+  MeetingQuestions: [MeetingQuestion] @connection(keyName: "byMeeting", fields: ["id"])
+  isCompleted: Boolean
+  isStarted: Boolean
+  annotations: AWSJSON
+}
+
+type Member @model @auth(rules: [{allow: owner}]) {
+  id: ID!
+  name: String!
+  phoneNumber: AWSPhone
+  isDisabled: Boolean
+  email: AWSEmail
+}
+
+type QuestionQuestionCategory @model(queries: null) @key(name: "byQuestion", fields: ["questionID", "questioncategoryID"]) @key(name: "byQuestionCategory", fields: ["questioncategoryID", "questionID"]) @auth(rules: [{allow: public}, {allow: private}, {allow: public}, {allow: private}]) {
+  id: ID!
+  questionID: ID!
+  questioncategoryID: ID!
+  question: Question! @connection(fields: ["questionID"])
+  questioncategory: QuestionCategory! @connection(fields: ["questioncategoryID"])
+}
+
+type MeetingQuestion @model(queries: null) @key(name: "byMeeting", fields: ["meetingID", "questionID"]) @key(name: "byQuestion", fields: ["questionID", "meetingID"]) @auth(rules: [{allow: owner}, {allow: public}, {allow: private}]) {
+  id: ID!
+  meetingID: ID!
+  questionID: ID!
+  meeting: Meeting! @connection(fields: ["meetingID"])
+  question: Question! @connection(fields: ["questionID"])
+}
+ 
