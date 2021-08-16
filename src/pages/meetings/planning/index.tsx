@@ -1,6 +1,6 @@
 import {
-    Badge, Box, Button, chakra, Divider, Flex, GridItem, Heading, SimpleGrid,
-    Spacer, Stack, Text, useDisclosure, // useDisclosure 
+    Box, Button, chakra, Divider, Flex, GridItem, Heading, SimpleGrid,
+    Stack, Tag, TagLabel, Text, useDisclosure, VStack, // useDisclosure 
 } from '@chakra-ui/react';
 import { DataStore } from 'aws-amplify';
 import { Meeting, MeetingQuestion, MeetingSchedule, Question, QuestionCategory } from 'models';
@@ -13,8 +13,12 @@ import { UIPage } from 'shared/components/ui/UIPage';
 
 // import { convertFromRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import useDebouncedCallback from "use-debounce/lib/useDebouncedCallback";
 
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import "./editor.css";
+import { getLabelTag } from 'shared/utils/Meeting';
+import { ShowDateText } from 'shared/utils/Date';
 
 interface RenderQuestionCategoriesProps {
     questionCategory?: QuestionCategory;
@@ -25,6 +29,8 @@ interface RouteParams {
     idMeeting?: string
 }
 
+const initialContent = { "entityMap": {}, "blocks": [{ "key": "637gr", "text": "Initialized from content state.", "type": "unstyled", "depth": 0, "inlineStyleRanges": [], "entityRanges": [], "data": {} }] };
+
 const PlanningMeetings: FC<any> = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [meetingSchedule, setSchedule] = useState<MeetingSchedule>();
@@ -32,7 +38,6 @@ const PlanningMeetings: FC<any> = () => {
     const [questionCategories, setQuestionCategories] = useState<QuestionCategory[]>([])
     const [categorySelected, setCategorySelected] = useState<string>();
     const [meetingQuestions, setMeetingQuestions] = useState<Question[]>([]);
-    const [editorState, setEditorState] = useState<any>();
     // const [meeting, setMeeting] = useState<Meeting>()
     // @todo
     const { idMeeting } = useParams<RouteParams>();
@@ -47,7 +52,6 @@ const PlanningMeetings: FC<any> = () => {
 
     async function getSchedule(idSchedule: string) {
         const model = await DataStore.query(MeetingSchedule, idSchedule);
-        console.log('MeetingSchedule:: ', model);
 
         setSchedule(model);
     }
@@ -87,29 +91,18 @@ const PlanningMeetings: FC<any> = () => {
         setQuestionCategories(model);
     }
 
-
-
     const RenderQuestionCategories: FC<RenderQuestionCategoriesProps> = ({ questionCategory, onClickCallback }) => {
         return (
-            <Box mr="4" my="2" border="1px solid" borderColor="gray.400" borderRadius="lg" cursor='pointer' onClick={() => onClickCallback(questionCategory?.id)}>
-
-                <Box p="4">
-                    <Badge fontSize="0.6em" colorScheme="red">
-                        {questionCategory?.questions?.length}
-                    </Badge>
+            <Box border="1px solid" borderColor="gray.400" borderRadius="lg" cursor='pointer'
+                onClick={() => onClickCallback(questionCategory?.id)}>
+                <Box p="2">
                     <Text fontSize="1xl" fontWeight="bold">
                         {questionCategory?.category}
                     </Text>
-                    <Flex>
-                        <Spacer />
-                        <Button size="xs">Veja +</Button>
-                    </Flex>
                 </Box>
             </Box>
         )
     }
-
-
 
     const openModalQuestions = (categoryId) => {
         console.log('setando:', categoryId);
@@ -117,15 +110,6 @@ const PlanningMeetings: FC<any> = () => {
         setCategorySelected(categoryId)
         onOpen();
     }
-
-    /* function buildMeetingQuestion(questions): MeetingQuestion[] {
-        return questions.map((question) => {
-            return {
-                meeting,
-                question
-            }
-        })
-    } */
 
     function generateDataStoreMeetingQuestion(questions, meetingModel): Promise<MeetingQuestion[]> {
         return questions.map((question) => {
@@ -149,38 +133,11 @@ const PlanningMeetings: FC<any> = () => {
                         (result) => console.log(result)
                     )
                 );
-
-
-                /* const data = await DataStore.save(Meeting.copyOf(meeting, item => {
-                    item.MeetingQuestions = newMeetingQuestions
-                }));
-                console.log(data); */
+                setMeetingQuestions((prev) => [...questions, ...prev])
             } catch (e) { console.log(e) }
 
-            // funcional
-            /* try {
-                const data = await DataStore.save(
-                    new MeetingQuestion({
-                        meeting,
-                        question: questions[0]
-                    })
-                )
-                console.log('save :::', data);
-            } catch (error) {
-                console.log(error)
-            } */
-
-            /*  const data = await DataStore.save(
-                 new MeetingQuestion({
-                     meeting,
-                     question: questions[0]
-                 })
-             ) */
 
 
-            setMeetingQuestions((prev) => [...questions, ...prev])
-        } else {
-            console.log('ue :::', questions, meeting);
         }
     }
 
@@ -189,30 +146,31 @@ const PlanningMeetings: FC<any> = () => {
             await DataStore.save(Meeting.copyOf(meeting, item => {
                 item.isStarted = isStarted
             }));
+            getMeeting()
         }
     }
 
-    /* async function updateAnnotations(annotations) {
+    async function updateAnnotations(annotations) {
         if (meeting) {
             await DataStore.save(Meeting.copyOf(meeting, item => {
-                item.annotations = annotations
+                item.annotations = JSON.stringify(annotations)
             }));
         }
-    } */
+    }
 
     async function updateIsCompleted(isCompleted) {
         if (meeting) {
             await DataStore.save(Meeting.copyOf(meeting, item => {
                 item.isCompleted = isCompleted
             }));
+            getMeeting()
         }
     }
 
-    const onEditorStateChange = (changes) => {
-        console.log(changes);
-        setEditorState(changes)
 
-    }
+    const debouncedEditorStateChange = useDebouncedCallback((changes) => {
+        updateAnnotations(changes)
+    }, 2000);
 
     useEffect(() => {
 
@@ -225,6 +183,20 @@ const PlanningMeetings: FC<any> = () => {
             getMeeting().then();
     }, [idMeeting]);
 
+    const SetInitialDataEditor = () => {
+        try {
+            if (meeting?.annotations) {
+                console.log(JSON.parse(meeting?.annotations));
+                return JSON.parse(meeting?.annotations)
+
+            }
+            return initialContent
+        } catch (e) {
+            return initialContent;
+        }
+
+    }
+
     return (
         <UIPage>
             <ModalAddQuestions
@@ -233,7 +205,6 @@ const PlanningMeetings: FC<any> = () => {
                 onOpen={onOpen}
                 onClose={
                     (questions: Question[], teste) => {
-                        console.log(teste);
                         if (questions)
                             addQuestionsMeeting(questions)
                         onClose();
@@ -250,10 +221,22 @@ const PlanningMeetings: FC<any> = () => {
                         <GridItem mt={[5, null, 0]} colSpan={{ md: 2 }}>
                             <Box px={[4, 0]} >
                                 <Flex justifyContent="space-between">
-                                    <Heading fontSize="lg" fontWeight="md" lineHeight="6">
-                                        One-on-one com {meetingSchedule?.Member.name} -
-                                        {(meeting?.meetingDate) ? new Date(meeting?.meetingDate).toLocaleString() : ''}
-                                    </Heading>
+                                    <VStack alignItems='flex-start'>
+                                        {meeting &&
+                                            <Tag
+                                                size='md'
+                                                borderRadius="full"
+                                                variant="solid"
+                                                colorScheme="green"
+                                            >
+                                                <TagLabel>{getLabelTag(meeting)}</TagLabel>
+                                            </Tag>
+                                        }
+                                        <Heading fontSize="lg" fontWeight="md" lineHeight="6">
+                                            One-on-one com {meetingSchedule?.Member.name} -
+                                            {(meeting?.meetingDate) ? new Date(meeting?.meetingDate).toLocaleString() : ''}
+                                        </Heading>
+                                    </VStack>
                                     {meeting && !meeting.isStarted && <Button
                                         onClick={() => { updateIsStarted(true) }}
                                         colorScheme="primary"
@@ -262,43 +245,50 @@ const PlanningMeetings: FC<any> = () => {
                                     >
                                         Iniciar Agora
                                     </Button>}
+
                                 </Flex>
                                 <Text
                                     mt={1}
                                     fontSize="sm"
                                 // color={useColorModeValue('gray.600', 'gray.400')}
                                 >
-                                    Ocorre a cada X dias todas as quintasX.
+                                    {ShowDateText(meetingSchedule?.recurrenceRule, meetingSchedule?.startDate)}
                                 </Text>
                             </Box>
                         </GridItem>
                     </Stack>
+
                     <chakra.form>
-                        <Stack spacing={6} >
+                        <Stack spacing={6} mt={4}>
+                            {!meeting?.isCompleted && <>
+                                <Divider />
+                                <Heading fontSize="lg" fontWeight="md" lineHeight="6">
+                                    Categorias
+                                </Heading>
+                                <SimpleGrid
+                                    columns={{ sm: 2, md: 3, lg: 3, xl: 3 }} spacing={2}>
 
-                            <SimpleGrid
-                                columns={{ sm: 2, md: 3, lg: 3, xl: 3 }} spacing={4}>
-
-                                {questionCategories.map((category) => (
-                                    <RenderQuestionCategories key={category.id} questionCategory={category} onClickCallback={openModalQuestions} />
-                                ))}
-                            </SimpleGrid>
+                                    {questionCategories.map((category) => (
+                                        <RenderQuestionCategories key={category.id} questionCategory={category} onClickCallback={openModalQuestions} />
+                                    ))}
+                                </SimpleGrid>
+                            </>}
 
                             <Divider />
 
                             <SimpleGrid
-                                columns={1} spacing={4}>
-                                <Box px={[4, 0]} >
+                                columns={1} >
+                                <Box>
                                     <Heading fontSize="lg" fontWeight="md" lineHeight="6">
                                         Questões
                                     </Heading>
-                                    <Text
+                                    {!meeting?.isCompleted && <Text
                                         mt={1}
                                         fontSize="sm"
                                     // color={useColorModeValue('gray.600', 'gray.400')}
                                     >
                                         Escolha as questões a partir dos assuntos acima.
-                                    </Text>
+                                    </Text>}
                                 </Box>
                                 {meetingQuestions.map((question) => (
                                     <Box
@@ -317,15 +307,16 @@ const PlanningMeetings: FC<any> = () => {
 
                             <Divider />
 
-                            {meeting && meeting.isStarted && 
-                            <Editor
-                                editorState={editorState}
-                                toolbarClassName="toolbarClassName"
-                                wrapperClassName="demo-wrapper"
-                                editorClassName="demo-editor"
-                                onEditorStateChange={onEditorStateChange}
-                                readOnly
-                            />}
+                            {meeting && meeting.isStarted &&
+                                <Editor
+                                    // editorState={editorState}
+                                    toolbarClassName="rdw-storybook-toolbar"
+                                    wrapperClassName="rdw-storybook-wrapper"
+                                    editorClassName="rdw-editor-toolbar22"
+                                    onContentStateChange={(changes) => { debouncedEditorStateChange(changes); }}
+                                    readOnly={meeting?.isCompleted}
+                                    defaultContentState={SetInitialDataEditor()}
+                                />}
 
                         </Stack>
                         <Box
@@ -334,8 +325,8 @@ const PlanningMeetings: FC<any> = () => {
                             // bg={useColorModeValue('secondary.50', 'secondary.900')}
                             textAlign="right"
                         >
-                            {meeting && meeting.isStarted && <Button
-                                onClick={()=>{updateIsCompleted(true)}}
+                            {meeting && meeting.isStarted && !meeting?.isCompleted && <Button
+                                onClick={() => { updateIsCompleted(true) }}
                                 colorScheme="primary"
                                 _focus={{ shadow: '' }}
                                 fontWeight="md"

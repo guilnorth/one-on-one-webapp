@@ -1,0 +1,12 @@
+.rdw-editor-toolbar22 {
+    
+    margin-top: var(--chakra-space-2);
+    margin-bottom: var(--chakra-space-2);
+    border: 1px solid;
+    border-color: var(--chakra-colors-gray-400);
+    border-radius: var(--chakra-radii-lg);
+    
+
+    padding: 12px 12px 10px;
+    
+  }

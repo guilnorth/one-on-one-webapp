@@ -170,7 +170,7 @@ const FormCreateMeetingSchedule: FC<FormCreateMeetingScheduleProps> = ({ onAfter
                             <RadioGroup
                                 fontSize="sm"
                                 color={useColorModeValue('gray.700', 'gray.50')}
-                                colorScheme="brand"
+                                colorScheme="primary"
                                 mt={4}
                                 defaultValue="7"
                                 onChange={(value) => { setDaysInterval(+value) }}

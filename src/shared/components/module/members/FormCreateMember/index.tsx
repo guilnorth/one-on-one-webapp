@@ -1,7 +1,7 @@
 import {
-    chakra, Stack, useColorModeValue, Box, Button,
+    chakra, Stack, Box, Button,
     FormControl, GridItem, Input, InputGroup,
-    InputLeftElement, SimpleGrid, Heading
+    InputLeftElement, SimpleGrid
 } from '@chakra-ui/react';
 import { DataStore } from 'aws-amplify';
 import { Member } from 'models';
@@ -36,32 +36,16 @@ const FormCreateMember: FC<FormCreateMemberProps> = ({ onAfterSave }) => {
     return (
         <chakra.form
             method="POST"
-            shadow="base"
-            rounded={[null, 'md']}
+            rounded='md'
             overflow={{ sm: 'hidden' }}
         >
             <Stack
                 px={4}
                 py={5}
-                bg={useColorModeValue('white', 'gray.700')}
+                // bg={useColorModeValue('white', 'gray.700')}
                 spacing={6}
                 p={{ sm: 6 }}
             >
-                <GridItem mt={[5, null, 0]} colSpan={{ md: 2 }}>
-                    <Box px={[4, 0]}>
-                        <Heading fontSize="lg" fontWeight="md" lineHeight="6">
-                            Adicione um novo membro a equipe
-                        </Heading>
-                        {/*  <Text
-                                                mt={1}
-                                                fontSize="sm"
-                                                color={useColorModeValue('gray.600', 'gray.400')}
-                                            >
-                                                Após agendar você poderá adicionar as questões e planejar a reunião.
-                                            </Text> */}
-                    </Box>
-                </GridItem>
-
                 <SimpleGrid columns={3} spacing={6}>
                     <FormControl as={GridItem} colSpan={[3, 2]}>
                         <UIFormLabel text="Nome" />
@@ -113,7 +97,7 @@ const FormCreateMember: FC<FormCreateMemberProps> = ({ onAfterSave }) => {
             <Box
                 px={{ base: 4, sm: 6 }}
                 py={3}
-                bg={useColorModeValue('secondary.50', 'secondary.900')}
+                // bg={useColorModeValue('secondary.50', 'secondary.900')}
                 textAlign="right"
             >
                 <Button
@@ -121,7 +105,6 @@ const FormCreateMember: FC<FormCreateMemberProps> = ({ onAfterSave }) => {
                     colorScheme="primary"
                     _focus={{ shadow: '' }}
                     fontWeight="md"
-                    bg={useColorModeValue('primary.50', 'primary.50')}
                 >
                     Salvar
                 </Button>

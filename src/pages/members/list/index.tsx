@@ -8,11 +8,14 @@ import {
     Heading,
     Button,
     useDisclosure,
+    Icon,
+    Divider,
+    Text,
 } from '@chakra-ui/react';
 import { UIPage } from 'shared/components/ui/UIPage';
 import { Member } from 'models';
 import { DataStore } from 'aws-amplify';
-import { MdAdd } from 'react-icons/md';
+import { MdAdd, MdAccountBox } from 'react-icons/md';
 import ModalCreateMember from 'shared/components/module/members/ModalCreateMember';
 // import { MdHome } from 'react-icons/md';
 
@@ -60,15 +63,38 @@ const ListMembers: FC<ListMembersProps> = () => {
                 <SimpleGrid
                     // display={{ base: 'initial', md: 'grid' }}
                     columns={{ sm: 2, md: 3, lg: 3, xl: 3 }}
+                    spacing={3}
                 // spacing={{ md: 6 }}
                 >
                     {members.map((member: Member) => (
+
                         <GridItem
                             key={member.id}
-                            _hover={{ bg: "teal.600" }}
-                            mt={5}
+
                         >
-                            {member.name}
+                            <Box border="1px solid" borderColor="gray.400" borderRadius="lg" cursor='pointer'>
+                                <Box p="2">
+
+                                    <Box display='flex'>
+                                        <Icon as={MdAccountBox} w={6} h={6} mr='1' />
+                                        <Text fontSize="1xl" fontWeight="bold">
+                                            {member.name}
+                                        </Text>
+                                    </Box>
+                                    <Divider my='2' />
+
+                                    <Text fontSize="xs" mb="2">
+                                        Email: {member.email}
+                                    </Text>
+
+                                    <Text fontSize="xs" mb="6">
+                                        Telefone: {member.phoneNumber}
+                                    </Text>
+
+
+                                </Box>
+                            </Box>
+
                         </GridItem>
                     ))}
                 </SimpleGrid>

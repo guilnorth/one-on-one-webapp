@@ -15,7 +15,7 @@ const ModalCreateMember: FC<ModalCreateMemberProps> = ({ isOpen = false, onClose
             isOpen={isOpen}
             onClose={onClose}
             onOpen={onOpen}
-            modalTitle="Crie um novo membro para a sua equipe">
+            modalTitle="Adicione um novo membro a equipe">
             <FormCreateMember onAfterSave={()=>{ onClose(); updateListCallback() }} />
         </UIModal>
     );
