@@ -1,0 +1,198 @@
+{
+    "blocks": [
+        {
+            "key": "637gr",
+            "text": "Anotações",
+            "type": "unstyled",
+            "depth": 0,
+            "inlineStyleRanges": [
+                {
+                    "offset": 0,
+                    "length": 9,
+                    "style": "BOLD"
+                }
+            ],
+            "entityRanges": [],
+            "data": {}
+        },
+        {
+            "key": "av647",
+            "text": "Tome nota de tudo que precisar ...",
+            "type": "unstyled",
+            "depth": 0,
+            "inlineStyleRanges": [
+                {
+                    "offset": 0,
+                    "length": 34,
+                    "style": "fontsize-14"
+                },
+                {
+                    "offset": 0,
+                    "length": 34,
+                    "style": "ITALIC"
+                }
+            ],
+            "entityRanges": [],
+            "data": {}
+        },
+        {
+            "key": "2v30h",
+            "text": "",
+            "type": "unstyled",
+            "depth": 0,
+            "inlineStyleRanges": [],
+            "entityRanges": [],
+            "data": {}
+        },
+        {
+            "key": "6ah00",
+            "text": "Pontos de ação",
+            "type": "unstyled",
+            "depth": 0,
+            "inlineStyleRanges": [
+                {
+                    "offset": 0,
+                    "length": 14,
+                    "style": "BOLD"
+                }
+            ],
+            "entityRanges": [],
+            "data": {}
+        },
+        {
+            "key": "7rdm8",
+            "text": "Focar em ...",
+            "type": "ordered-list-item",
+            "depth": 0,
+            "inlineStyleRanges": [
+                {
+                    "offset": 0,
+                    "length": 12,
+                    "style": "ITALIC"
+                }
+            ],
+            "entityRanges": [],
+            "data": {}
+        },
+        {
+            "key": "cqlu6",
+            "text": "Ser mais ...",
+            "type": "ordered-list-item",
+            "depth": 0,
+            "inlineStyleRanges": [
+                {
+                    "offset": 0,
+                    "length": 12,
+                    "style": "ITALIC"
+                }
+            ],
+            "entityRanges": [],
+            "data": {}
+        },
+        {
+            "key": "5qamo",
+            "text": "",
+            "type": "ordered-list-item",
+            "depth": 0,
+            "inlineStyleRanges": [],
+            "entityRanges": [],
+            "data": {}
+        },
+        {
+            "key": "ae3uc",
+            "text": "Outras questões levantadas",
+            "type": "unstyled",
+            "depth": 0,
+            "inlineStyleRanges": [
+                {
+                    "offset": 0,
+                    "length": 26,
+                    "style": "BOLD"
+                }
+            ],
+            "entityRanges": [],
+            "data": {
+                "text-align": "left"
+            }
+        },
+        {
+            "key": "7f1ep",
+            "text": "Anote aqui as questões que seu liderado trouxer",
+            "type": "unstyled",
+            "depth": 0,
+            "inlineStyleRanges": [
+                {
+                    "offset": 0,
+                    "length": 47,
+                    "style": "ITALIC"
+                },
+                {
+                    "offset": 0,
+                    "length": 47,
+                    "style": "fontsize-14"
+                }
+            ],
+            "entityRanges": [],
+            "data": {}
+        },
+        {
+            "key": "5a59f",
+            "text": "",
+            "type": "unstyled",
+            "depth": 0,
+            "inlineStyleRanges": [],
+            "entityRanges": [],
+            "data": {}
+        },
+        {
+            "key": "9s2nb",
+            "text": "Pontos para a próxima one-on-one",
+            "type": "header-two",
+            "depth": 0,
+            "inlineStyleRanges": [
+                {
+                    "offset": 0,
+                    "length": 32,
+                    "style": "BOLD"
+                },
+                {
+                    "offset": 0,
+                    "length": 32,
+                    "style": "fontsize-18"
+                }
+            ],
+            "entityRanges": [],
+            "data": {}
+        },
+        {
+            "key": "257b9",
+            "text": "...",
+            "type": "unstyled",
+            "depth": 0,
+            "inlineStyleRanges": [
+                {
+                    "offset": 0,
+                    "length": 3,
+                    "style": "BOLD"
+                },
+                {
+                    "offset": 0,
+                    "length": 3,
+                    "style": "fontsize-18"
+                }
+            ],
+            "entityRanges": [],
+            "data": {}
+        },
+        {
+            "key": "e5ogl",
+            "text": "",
+            "type": "unstyled",
+            "depth": 0,
+            "inlineStyleRanges": [],
+            "entityRanges": [],
+            "data": {}
+        }
+    ],
+    "entityMap": {}
+}

@@ -19,6 +19,7 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "./editor.css";
 import { getLabelTag } from 'shared/utils/Meeting';
 import { ShowDateText } from 'shared/utils/Date';
+import initialContent from 'shared/utils/EditorDefault.json';
 
 interface RenderQuestionCategoriesProps {
     questionCategory?: QuestionCategory;
@@ -29,7 +30,6 @@ interface RouteParams {
     idMeeting?: string
 }
 
-const initialContent = { "entityMap": {}, "blocks": [{ "key": "637gr", "text": "Initialized from content state.", "type": "unstyled", "depth": 0, "inlineStyleRanges": [], "entityRanges": [], "data": {} }] };
 
 const PlanningMeetings: FC<any> = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
