@@ -8,11 +8,7 @@ import {
     Text,
     Stack,
     FormControl,
-    // Input,
     InputGroup,
-    // InputRightAddon,
-    /* Textarea,
-    FormHelperText, */
     Button,
     RadioGroup,
     Radio
@@ -56,7 +52,7 @@ const AutocompleteMembersList: FC<any> = ({ membersList, setSelectedMember }) =>
             isSearchable
             getOptionLabel={(member: Member) => `${member.name} - ${member.email}`}
             getOptionValue={(member: Member) => member}
-            noOptionsMessage='Nenhum membro aqui...'
+            noOptionsMessage={() => "Cadastre algum membro na equipe antes"} 
             option
         />
     )
@@ -113,9 +109,6 @@ const FormCreateMeetingSchedule: FC<FormCreateMeetingScheduleProps> = ({ onAfter
             <Stack spacing={6} >
                 <GridItem mt={[5, null, 0]} colSpan={{ md: 2 }}>
                     <Box px={[4, 0]}>
-                        {/*  <Heading fontSize="lg" fontWeight="md" lineHeight="6">
-                            Agende uma nova one-on-one
-                        </Heading> */}
                         <Text
                             mt={1}
                             fontSize="sm"
@@ -129,20 +122,6 @@ const FormCreateMeetingSchedule: FC<FormCreateMeetingScheduleProps> = ({ onAfter
                 <SimpleGrid columns={3} spacing={6}>
                     <FormControl as={GridItem} colSpan={[3, 2]}>
                         <UIFormLabel text="Membro da equipe" />
-                        {/* <InputGroup size="sm">
-                      <Input
-                        type="tel"
-                        placeholder="Nome do membro"
-                        focusBorderColor="brand.400"
-                        rounded="md"
-                      />
-                      <InputRightAddon
-                        children="Novo membro"
-                        bg={useColorModeValue('gray.50', 'gray.800')}
-                        color={useColorModeValue('gray.500', 'gray.50')}
-                        rounded="md"
-                      />
-                    </InputGroup> */}
                         <AutocompleteMembersList membersList={membersList} setSelectedMember={setMemberMeeting} />
                     </FormControl>
                 </SimpleGrid>
@@ -193,37 +172,10 @@ const FormCreateMeetingSchedule: FC<FormCreateMeetingScheduleProps> = ({ onAfter
                     <UIFormTextHint text="O intervalo pode ser alterado no futuro" />
 
                 </SimpleGrid>
-
-
-                {/* <div>
-                    <FormControl id="email" mt={1}>
-                      <FormLabel
-                        fontSize="sm"
-                        fontWeight="md"
-                        color={useColorModeValue('gray.700', 'gray.50')}
-                      >
-                        Adicional
-                      </FormLabel>
-                      <Textarea
-                        placeholder="you@example.com"
-                        mt={1}
-                        rows={3}
-                        shadow="sm"
-                        focusBorderColor="brand.400"
-                        fontSize={{ sm: 'sm' }}
-                      />
-                      <FormHelperText>
-                        Brief description for your profile. URLs are
-                        hyperlinked.
-                      </FormHelperText>
-                    </FormControl>
-                  </div> */}
-
             </Stack>
             <Box
                 px={{ base: 4, sm: 6 }}
                 py={3}
-                // bg={useColorModeValue('secondary.50', 'secondary.900')}
                 textAlign="right"
             >
                 <Button
@@ -231,7 +183,6 @@ const FormCreateMeetingSchedule: FC<FormCreateMeetingScheduleProps> = ({ onAfter
                     colorScheme="primary"
                     _focus={{ shadow: '' }}
                     fontWeight="md"
-                // bg={useColorModeValue('primary.50', 'primary.50')}
                 >
                     Agendar
                 </Button>

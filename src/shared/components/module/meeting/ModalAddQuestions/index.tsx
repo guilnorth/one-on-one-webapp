@@ -65,9 +65,7 @@ const ModalAddQuestions: FC<ModalAddQuestionsProps> = ({
         }
     }
 
-    function onHandleAddQuestions() {
-        console.log('call close');
-        
+    function onHandleAddQuestions() {        
         onClose(selectedQuestions, '123');
     }
 

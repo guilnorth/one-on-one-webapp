@@ -27,8 +27,6 @@ const ModalCreateMeeting: FC<ModalCreateMeetingProps> =
             ));
 
             if (meeting && meeting.length) {
-                console.log(meeting);
-                
                 // redirect
                 return history.push(`/meeting/planning/${meeting[0].id}`);
 
@@ -44,11 +42,7 @@ const ModalCreateMeeting: FC<ModalCreateMeetingProps> =
                 return history.push(`/meeting/planning/${meetingCreated.id}`);
             }
 
-            console.log('houve um problema ao criar')
-
-
             return false;
-
 
         }
 

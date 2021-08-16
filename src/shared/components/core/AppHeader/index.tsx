@@ -7,8 +7,6 @@ import {
 import { FaBell } from 'react-icons/fa';
 import { FiMenu, } from 'react-icons/fi';
 import { Auth, DataStore } from 'aws-amplify';
-import { useHistory } from 'react-router-dom';
-
 import ColorModeSwitcher from '../../../../ColorModeSwitcher';
 
 
@@ -19,17 +17,15 @@ const AppHeader: FC<any> = () => {
   const logout = async () => {
     await Auth.signOut();
     await DataStore.clear();
-    console.log(history);
-    
+
     // simple relod Amplify
-   // if (history.location.pathname === '/')
-      window.location.reload()
-   // return history.replace('/');
+    // if (history.location.pathname === '/')
+    window.location.reload()
+    // return history.replace('/');
 
   }
 
   const sidebar = useDisclosure();
-  const history = useHistory();
   return (
     <Flex
       as="header"

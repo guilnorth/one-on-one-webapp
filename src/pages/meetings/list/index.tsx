@@ -33,8 +33,6 @@ const ListMeetings: FC<any> = ({ text }) => {
 
     async function getSchedules() {
         const models = await DataStore.query(MeetingSchedule);
-        console.log('>>>>>>>>>>>>>>>>>>>>>', models);
-
         setSchedules(models);
     }
 
@@ -50,10 +48,8 @@ const ListMeetings: FC<any> = ({ text }) => {
             if (schedule) {
                 const meetings = (await DataStore.query(Meeting, (m) =>
                     m
-                        // .meetingDate('eq', meetingDate)
                         .meetingScheduleID('eq', schedule?.id)
                 ));
-                console.log('get list meetin schedule ::', schedule.id);
 
                 if (meetings && meetings.length) {
                     setMeetinsSchedule(meetings)
@@ -87,7 +83,7 @@ const ListMeetings: FC<any> = ({ text }) => {
                                 <HStack as={Button} size="md" wrap='wrap' justifyContent='center' my={2}>
                                     <Text size="sm">{new Date(meeting?.meetingDate).toLocaleString() || ''}</Text>
                                     <Tag
-                                       
+
                                         size='sm'
                                         borderRadius="full"
                                         variant="solid"

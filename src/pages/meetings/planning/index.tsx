@@ -60,7 +60,6 @@ const PlanningMeetings: FC<any> = () => {
         const questionsDb = (await DataStore.query(MeetingQuestion))
             .filter(mq => mq.meeting.id === meetingId)
             .map(mq => mq.question);
-        console.log('questions from DB: ', questionsDb);
         setMeetingQuestions(questionsDb);
 
     }
@@ -68,19 +67,12 @@ const PlanningMeetings: FC<any> = () => {
     async function getMeeting() {
         if (idMeeting) {
             const model = await DataStore.query(Meeting, idMeeting);
-            console.log('meeting::', model);
-            console.log('questions::', model?.MeetingQuestions);
 
             if (model && model.meetingScheduleID) {
                 setMeeting(model);
                 getSchedule(model.meetingScheduleID)
                 getQuestionsMeetingDb(idMeeting)
             }
-
-            // get 
-        } else {
-            console.log('an?');
-
         }
     }
 
@@ -105,8 +97,6 @@ const PlanningMeetings: FC<any> = () => {
     }
 
     const openModalQuestions = (categoryId) => {
-        console.log('setando:', categoryId);
-
         setCategorySelected(categoryId)
         onOpen();
     }
@@ -128,11 +118,7 @@ const PlanningMeetings: FC<any> = () => {
 
             try {
                 const promisesDataStore = generateDataStoreMeetingQuestion(questions, meeting);
-                Promise.allSettled([promisesDataStore]).then(
-                    (results) => results.forEach(
-                        (result) => console.log(result)
-                    )
-                );
+                Promise.allSettled([promisesDataStore]).then();
                 setMeetingQuestions((prev) => [...questions, ...prev])
             } catch (e) { console.log(e) }
 
@@ -186,9 +172,7 @@ const PlanningMeetings: FC<any> = () => {
     const SetInitialDataEditor = () => {
         try {
             if (meeting?.annotations) {
-                console.log(JSON.parse(meeting?.annotations));
                 return JSON.parse(meeting?.annotations)
-
             }
             return initialContent
         } catch (e) {

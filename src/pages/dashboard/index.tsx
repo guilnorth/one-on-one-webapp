@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 import {
   chakra,
   Box,
@@ -8,7 +8,6 @@ import {
   Icon,
 } from "@chakra-ui/react";
 import { UIPage } from 'shared/components/ui/UIPage';
-import { Auth } from 'aws-amplify';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface DashboardProps {
@@ -48,20 +47,8 @@ const Feature = ({ icon, children, title }) => {
   );
 };
 
-async function getSession() {
-  const session = await Auth.currentSession();
-  console.log(session);
-  
- /*  if (!session) {
-    window.location.reload();
-  } */
-}
+
 const Dashboard: FC<DashboardProps> = () => {
-  useEffect(() => {
-
-    getSession();
-
-  }, [Auth]);
 
   return (
     <UIPage>

@@ -21,9 +21,7 @@ export function TranslateRRule(rule: RRule) {
         // Return pt. string, default to english.
         portugueseStrings[id] || id
 
-    console.log(rule.toText(gettext, portuguese))
     return rule.toText(gettext, portuguese)
-    // => cada 5 semanas em Segunda-Feira, Sexta-feira até Janeiro 31, 2013
 }
 
 export function ShowDateText(recurrenceRule?: string, dateString?: string) {
@@ -41,7 +39,10 @@ export function ShowDateText(recurrenceRule?: string, dateString?: string) {
     }
 }
 
-export function ShowDateTextResumed(recurrenceRule?: string, dateString?: string) {
+export function ShowDateTextResumed(
+    recurrenceRule?: string,
+    dateString?: string,
+) {
     if (!recurrenceRule || !dateString) return ''
     try {
         const dateStart = new Date(dateString)
